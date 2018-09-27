@@ -1,0 +1,41 @@
+﻿@model ArchitecturalApplication.ViewModels.GigFormViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+@using (Html.BeginForm("Create", "Gigs"))
+{
+    <p class="alert alert-info">All fields are <strong>required</strong>.</p>
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(a => a.Venue)
+        @Html.TextBoxFor(a => a.Venue, new {@class = "form-control", autofocus = "autofocus"})
+        @Html.ValidationMessageFor(a => a.Venue)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Date)
+        @Html.TextBoxFor(a => a.Date, new {@class = "form-control", placeholder = "eg 1 Jan 2018"})
+        @Html.ValidationMessageFor(a => a.Date)
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Time)
+        @Html.TextBoxFor(a => a.Time, new {@class = "form-control", placeholder = "eg 20:00" })
+        @Html.ValidationMessageFor(a => a.Time)
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Genre)
+        @Html.DropDownListFor(a => a.Genre, new SelectList(Model.Genres, "Id", "Name"), "", new { @class = "form-control"})
+        @Html.ValidationMessageFor(a => a.Genre)
+
+    </div>
+    <button type="submit" class="btn btn-primary">Value</button>
+
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
