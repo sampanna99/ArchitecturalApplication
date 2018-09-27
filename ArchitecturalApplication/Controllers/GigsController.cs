@@ -1,6 +1,7 @@
 ﻿using ArchitecturalApplication.Models;
 using ArchitecturalApplication.ViewModels;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -26,6 +27,25 @@ namespace ArchitecturalApplication.Controllers
             };
 
             return View(viewModel);
+        }
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            var userId = User.Identity.GetUserId();
+
+            var gig = _context.Gigs.Single(g => g.Id == id && g.ArtistId == userId);
+
+            var viewModel = new GigFormViewModel
+            {
+                Genres = _context.Genres.ToList(),
+                Date = gig.DateTime.ToString("d MMM yyyy"),
+                Time = gig.DateTime.ToString("HH:mm"),
+                Genre = gig.GenreId,
+                Venue = gig.Venue
+
+            };
+
+            return View("Create", viewModel);
         }
 
         [Authorize]
@@ -67,8 +87,16 @@ namespace ArchitecturalApplication.Controllers
 
             _context.Gigs.Add(gig);
             _context.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Mine", "Gigs");
         }
 
+        [Authorize]
+        public ActionResult Mine()
+        {
+            var userId = User.Identity.GetUserId();
+            var gigs = _context.Gigs.Where(g => g.ArtistId == userId && g.DateTime > DateTime.Now).Include(g => g.Genre)
+                .ToList();
+            return View(gigs);
+        }
     }
 }
