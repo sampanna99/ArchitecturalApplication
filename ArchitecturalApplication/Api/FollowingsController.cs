@@ -1,10 +1,10 @@
-﻿using ArchitecturalApplication.Dtos;
+﻿using System.Linq;
+using System.Web.Http;
+using ArchitecturalApplication.Dtos;
 using ArchitecturalApplication.Models;
 using Microsoft.AspNet.Identity;
-using System.Linq;
-using System.Web.Http;
 
-namespace ArchitecturalApplication.Controllers
+namespace ArchitecturalApplication.Api
 {
     [Authorize]
     public class FollowingsController : ApiController

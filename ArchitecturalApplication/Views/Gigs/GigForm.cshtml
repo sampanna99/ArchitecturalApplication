@@ -1,13 +1,14 @@
 ﻿@model ArchitecturalApplication.ViewModels.GigFormViewModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = Model.Heading;
 }
 
-<h2>Create</h2>
-@using (Html.BeginForm("Create", "Gigs"))
+<h2>@Model.Heading</h2>
+@using (Html.BeginForm(Model.Action, "Gigs"))
 {
     <p class="alert alert-info">All fields are <strong>required</strong>.</p>
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(a => a.Id)
     <div class="form-group">
         @Html.LabelFor(a => a.Venue)
         @Html.TextBoxFor(a => a.Venue, new {@class = "form-control", autofocus = "autofocus"})
@@ -31,7 +32,7 @@
         @Html.ValidationMessageFor(a => a.Genre)
 
     </div>
-    <button type="submit" class="btn btn-primary">Value</button>
+    <button type="submit" class="btn btn-primary btn-lg">Save</button>
 
 }
 @section scripts

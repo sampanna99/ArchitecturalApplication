@@ -23,10 +23,11 @@ namespace ArchitecturalApplication.Controllers
         {
             var viewModel = new GigFormViewModel
             {
-                Genres = _context.Genres.ToList()
+                Genres = _context.Genres.ToList(),
+                Heading = "Add s Gig"
             };
 
-            return View(viewModel);
+            return View("GigForm", viewModel);
         }
         [Authorize]
         public ActionResult Edit(int id)
@@ -41,11 +42,13 @@ namespace ArchitecturalApplication.Controllers
                 Date = gig.DateTime.ToString("d MMM yyyy"),
                 Time = gig.DateTime.ToString("HH:mm"),
                 Genre = gig.GenreId,
-                Venue = gig.Venue
+                Venue = gig.Venue,
+                Id = gig.Id,
+                Heading = "Edit a Gig"
 
             };
 
-            return View("Create", viewModel);
+            return View("GigForm", viewModel);
         }
 
         [Authorize]
@@ -74,7 +77,7 @@ namespace ArchitecturalApplication.Controllers
             if (!ModelState.IsValid)
             {
                 viewModel.Genres = _context.Genres.ToList();
-                return View("Create", viewModel);
+                return View("GigForm", viewModel);
             }
 
             var gig = new Gig
@@ -91,10 +94,31 @@ namespace ArchitecturalApplication.Controllers
         }
 
         [Authorize]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult Update(GigFormViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                viewModel.Genres = _context.Genres.ToList();
+                return View("GigForm", viewModel);
+            }
+
+            var userId = User.Identity.GetUserId();
+            var gig = _context.Gigs.Include(a => a.Attendances.Select(l => l.Attendee)).Single(g => g.Id == viewModel.Id && g.ArtistId == userId);
+
+            gig.Modify(viewModel.GetDateTime(), viewModel.Venue, viewModel.Genre);
+
+
+            _context.SaveChanges();
+            return RedirectToAction("Mine", "Gigs");
+        }
+
+        [Authorize]
         public ActionResult Mine()
         {
             var userId = User.Identity.GetUserId();
-            var gigs = _context.Gigs.Where(g => g.ArtistId == userId && g.DateTime > DateTime.Now).Include(g => g.Genre)
+            var gigs = _context.Gigs.Where(g => g.ArtistId == userId && g.DateTime > DateTime.Now && !g.IsCanceled).Include(g => g.Genre)
                 .ToList();
             return View(gigs);
         }

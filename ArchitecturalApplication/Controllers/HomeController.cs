@@ -19,7 +19,7 @@ namespace ArchitecturalApplication.Controllers
 
         public ActionResult Index()
         {
-            var upcomingGigs = _context.Gigs.Include(a => a.Artist).Include(a => a.Genre).Where(a => a.DateTime > DateTime.Now);
+            var upcomingGigs = _context.Gigs.Include(a => a.Artist).Include(a => a.Genre).Where(a => a.DateTime > DateTime.Now && !a.IsCanceled);
 
             var viewModel = new GigsViewModel
             {
