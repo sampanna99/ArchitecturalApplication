@@ -17,15 +17,23 @@ namespace ArchitecturalApplication.Controllers
             _context = new ApplicationDbContext();
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string query = null)
         {
             var upcomingGigs = _context.Gigs.Include(a => a.Artist).Include(a => a.Genre).Where(a => a.DateTime > DateTime.Now && !a.IsCanceled);
+
+            if (!String.IsNullOrWhiteSpace(query))
+            {
+                upcomingGigs = upcomingGigs.Where(a => a.Artist.Name.Contains(query) || a.Genre.Name.Contains(query) ||
+                                                       a.Venue.Contains(query));
+            }
+
 
             var viewModel = new GigsViewModel
             {
                 UpcomingGigs = upcomingGigs,
                 ShowActions = User.Identity.IsAuthenticated,
-                Heading = "Upcoming Gigs"
+                Heading = "Upcoming Gigs",
+                SearchTerm = query
             };
 
             return View("Gigs", viewModel);

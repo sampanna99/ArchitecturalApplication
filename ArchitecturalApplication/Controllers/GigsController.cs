@@ -29,6 +29,13 @@ namespace ArchitecturalApplication.Controllers
 
             return View("GigForm", viewModel);
         }
+
+        public ActionResult Search(GigsViewModel viewModel)
+        {
+            return RedirectToAction("Index", "Home", new { query = viewModel.SearchTerm });
+        }
+
+
         [Authorize]
         public ActionResult Edit(int id)
         {
