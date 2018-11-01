@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Web.Http;
-using ArchitecturalApplication.Dtos;
+﻿using ArchitecturalApplication.Dtos;
 using ArchitecturalApplication.Models;
 using Microsoft.AspNet.Identity;
+using System.Linq;
+using System.Web.Http;
 
 namespace ArchitecturalApplication.Api
 {
@@ -35,6 +35,24 @@ namespace ArchitecturalApplication.Api
             _context.Attendances.Add(attendace);
             _context.SaveChanges();
             return Ok();
+        }
+
+        public IHttpActionResult DeleteAttendance(int id)
+        {
+            var userId = User.Identity.GetUserId();
+
+            var attendance = _context.Attendances.SingleOrDefault(a => a.AttendeeId == userId && a.GigId == id);
+
+            if (attendance == null)
+            {
+                return NotFound();
+            }
+
+            _context.Attendances.Remove(attendance);
+            _context.SaveChanges();
+
+            return Ok(id);
+
         }
 
 

@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Web.Http;
-using ArchitecturalApplication.Dtos;
+﻿using ArchitecturalApplication.Dtos;
 using ArchitecturalApplication.Models;
 using Microsoft.AspNet.Identity;
+using System.Linq;
+using System.Web.Http;
 
 namespace ArchitecturalApplication.Api
 {
@@ -35,5 +35,21 @@ namespace ArchitecturalApplication.Api
             _context.SaveChanges();
             return Ok();
         }
+
+        public IHttpActionResult Unfollow(string id)
+        {
+            var userId = User.Identity.GetUserId();
+            var following = _context.Followings.SingleOrDefault(a => a.FollowerId == userId && a.FolloweeId == id);
+
+            if (following == null)
+            {
+                return NotFound();
+            }
+
+            _context.Followings.Remove(following);
+            _context.SaveChanges();
+            return Ok(id);
+        }
+
     }
 }

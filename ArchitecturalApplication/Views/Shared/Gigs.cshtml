@@ -16,7 +16,7 @@
 
     </div>
 }
-<ul class="gigs voffset3">
+<ul class="gigs voffset4" id="gigs">
     @foreach (var gig in Model.UpcomingGigs)
     {
         <li>
@@ -30,6 +30,7 @@
             </div>
             <div class="details">
                 <span class="artist">
+                    <a href="@Url.Action("Details", "Gigs", new {id = gig.Id})"></a>
                     @gig.Artist.Name
                     @if (gig.IsCanceled)
                     {
@@ -47,7 +48,8 @@
                 </span>
                 @if (Model.ShowActions && !gig.IsCanceled)
                 {
-                    <button data-gig-id="@gig.Id" class="btn btn-default btn-sm pull-right js-toggle-attendance">Going?</button>
+                    <button data-gig-id="@gig.Id" class="btn @(Model.Attendances.Contains(gig.Id) ? "btn-info" : "btn-default")
+                             btn-default btn-sm pull-right js-toggle-attendance">Going?</button>
                 }
             </div>
         </li>
@@ -56,16 +58,8 @@
 @section scripts{
     <script>
         $(document).ready(function() {
-            $('.js-toggle-attendance').click(function(e) {
-
-                var button = $(e.target);
-
-                $.post("/api/attendances", { "gigId": button.attr("data-gig-id") }).done(function() {
-                    button.removeClass("btn-default").addClass("btn-info").text("Going");
-                }).fail(function() {
-                    alert("Something Failed!");
-                });
-            });
+            //initGigs();
+            GigsController.init("#gigs");
 
             $('.js-toggle-follow').click(function(e) {
                 var button = $(e.target);

@@ -1,5 +1,7 @@
 ﻿using ArchitecturalApplication.Models;
+using ArchitecturalApplication.Repositories;
 using ArchitecturalApplication.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -11,10 +13,12 @@ namespace ArchitecturalApplication.Controllers
     {
 
         private ApplicationDbContext _context;
+        private AttendanceRepository _attendanceRepository;
 
         public HomeController()
         {
             _context = new ApplicationDbContext();
+            _attendanceRepository = new AttendanceRepository(_context);
         }
 
         public ActionResult Index(string query = null)
@@ -27,13 +31,16 @@ namespace ArchitecturalApplication.Controllers
                                                        a.Venue.Contains(query));
             }
 
+            string userId = User.Identity.GetUserId();
+            var attendances = _attendanceRepository.GetFutureAttendances(userId).ToLookup(a => a.GigId);
 
             var viewModel = new GigsViewModel
             {
                 UpcomingGigs = upcomingGigs,
                 ShowActions = User.Identity.IsAuthenticated,
                 Heading = "Upcoming Gigs",
-                SearchTerm = query
+                SearchTerm = query,
+                Attendances = attendances
             };
 
             return View("Gigs", viewModel);
