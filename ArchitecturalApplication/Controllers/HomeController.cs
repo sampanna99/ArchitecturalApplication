@@ -1,6 +1,6 @@
-﻿using ArchitecturalApplication.Models;
-using ArchitecturalApplication.Repositories;
-using ArchitecturalApplication.ViewModels;
+﻿using ArchitecturalApplication.Core.ViewModels;
+using ArchitecturalApplication.Persistence;
+using ArchitecturalApplication.Persistence.Repositories;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Data.Entity;

@@ -1,5 +1,6 @@
-﻿using ArchitecturalApplication.Models;
-using ArchitecturalApplication.Repositories;
+﻿using ArchitecturalApplication.Core;
+using ArchitecturalApplication.Core.Repositories;
+using ArchitecturalApplication.Persistence.Repositories;
 
 namespace ArchitecturalApplication.Persistence
 {

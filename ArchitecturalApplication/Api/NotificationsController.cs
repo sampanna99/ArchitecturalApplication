@@ -1,5 +1,6 @@
-﻿using ArchitecturalApplication.Dtos;
-using ArchitecturalApplication.Models;
+﻿using ArchitecturalApplication.Core.Dtos;
+using ArchitecturalApplication.Core.Models;
+using ArchitecturalApplication.Persistence;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;

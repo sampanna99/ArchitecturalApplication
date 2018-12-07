@@ -1,6 +1,5 @@
-﻿using ArchitecturalApplication.Api;
-using ArchitecturalApplication.Dtos;
-using ArchitecturalApplication.Models;
+﻿using ArchitecturalApplication.Core.Dtos;
+using ArchitecturalApplication.Core.Models;
 using AutoMapper;
 
 namespace ArchitecturalApplication.App_Start

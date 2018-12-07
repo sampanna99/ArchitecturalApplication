@@ -1,4 +1,4 @@
-﻿using ArchitecturalApplication.Models;
+﻿using ArchitecturalApplication.Persistence;
 using Microsoft.AspNet.Identity;
 using System.Data.Entity;
 using System.Linq;

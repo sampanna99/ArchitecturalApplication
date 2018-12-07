@@ -1,6 +1,7 @@
-﻿using ArchitecturalApplication.Models;
+﻿using ArchitecturalApplication.Core;
+using ArchitecturalApplication.Core.Models;
+using ArchitecturalApplication.Core.ViewModels;
 using ArchitecturalApplication.Persistence;
-using ArchitecturalApplication.ViewModels;
 using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Mvc;

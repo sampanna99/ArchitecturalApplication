@@ -1,5 +1,5 @@
-﻿using ArchitecturalApplication.Models;
-using ArchitecturalApplication.ViewModels;
+﻿using ArchitecturalApplication.Core.Models;
+using ArchitecturalApplication.Core.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
